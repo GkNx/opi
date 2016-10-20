@@ -74,3 +74,29 @@ void read_dht11_dat()
 	     (dht11_dat[4] == ( (dht11_dat[0] + dht11_dat[1] + dht11_dat[2] + dht11_dat[3]) & 0xFF) ) )
 	{
 		f = dht11_dat[2] * 9. / 5. + 32;
+
+		temps = dht11_dat[2];
+		hum = dht11_dat[0];
+
+		if (temps > 0 && hum < 90)
+		{
+			readsuccess = 1;
+		}
+	}
+}
+
+int main( void )
+{
+	if ( wiringPiSetup() == -1 )
+		exit( 1 );
+
+	while(readsuccess == 0){
+		read_dht11_dat();
+	}
+	printf("Temp: ");
+	printf(temps);
+	printf("\nHumidity: ");
+	printf(hum);
+
+	return(0);
+}
